@@ -1,0 +1,156 @@
+#  simulating DNA D.I. values
+# Need to source ~/myGit/mixturemodel/Scripts/simDt_functions.R
+#	normal population
+##======================================================
+#	File name: recontrData-v1.R
+#	Author: Jianying Li
+#	Comment: used to convert OSCC to data with 16 varialbes
+##=====================================================
+library(Rlab)
+
+##  OS specific directories:
+
+mac.os  <- "/Users/li11/"
+linux   <- "~/"
+windows <- "X:/"
+
+
+##=============================================
+##  Read in data
+##=============================================
+#root <- windows
+root <- mac.os
+
+source (paste (root, "myGit/mixturemodel/Scripts/cleaningFuncs.R", sep = ""))
+source (paste (root, "myGit/mixturemodel/Scripts/simDt_functions.R", sep = ""))
+source (paste (root, "myGit/mixturemodel/Scripts/reconstrDtFunctions.R", sep = ""))
+
+dt.dir <- paste (root, "/myGit/mixturemodel/cleanedData/OSCC/", sep="")
+lab <- "c"
+
+params <- para4()
+
+files <- list.files (path = dt.dir, pattern=".rda")
+dt.return <- ""
+
+for (k in 1:length(files))
+{
+  
+  load(paste(dt.dir, files[k], sep=""))
+  popNum = 3
+  if (cleanedSample$AneuLeft == "" || length(cleanedSample$AneuLeft) == 0)
+  {
+    popNum = 2
+  }
+
+  #Make it 8 if greater than 8
+  if (popNum == 3)
+  {
+	  cleanedSample$AneuLeft[which(cleanedSample$AneuLeft > 8)] <- 8 
+  }
+	#if (is.na(cleanedSample$SP_count1))
+
+	ratio <- cleanedSample$FP_count/cleanedSample$SP_count
+
+	w.norm <- ratio/(1+ratio)
+	w.mito <- 1/(1+ratio)
+	x <- seq(0,2.3, by=(2.3/512))
+	x <- x[-1]
+  if (popNum == 3)
+  {
+    y1 <- w.norm*P(x, cleanedSample$FP_mean, cleanedSample$FP_std)
+    y2 <- w.mito*P(x, cleanedSample$SP_mean, cleanedSample$SP_std)
+    y = y1 + y2
+  }else if (popNum ==2)
+  {
+    if (is.na(cleanedSample$SP_mean))
+    {
+      cleanedSample$SP_std = params$fakeSP_std 
+      cleanedSample$SP_mean = params$fakeSP_mean
+    }else if (is.na(cleanedSample$SP_std))
+    {
+      cleanedSample$SP_std = params$fakeSP_std 
+    }
+    
+    y1 <- (w.norm*P(x, cleanedSample$FP_mean, cleanedSample$FP_std))*params$twoSampleRatio[1]
+    y2 <- (w.mito*P(x, cleanedSample$SP_mean, cleanedSample$SP_std))*params$twoSampleRatio[1]
+    y3 <- P(x, params$fake_aneu_mean, params$fake_aneu_std)*params$twoSampleRatio[2]
+    y = y1 + y2 + y3
+  }
+  
+    
+	prob.y <- c()
+	pdf.y <- y/sum(y)
+	prob.y[1] <- pdf.y[1]
+
+  #Gettig the empirical cdf, very important here!!
+	for (i in 2:length(y))
+	{
+		temp.prob <- pdf.y[i]
+		prob.y[i] <- prob.y[i-1] + temp.prob
+	}
+
+  if (popNum == 3)
+  {
+	  numOfAneu <- length(cleanedSample$AneuLeft)
+	  num2Recontr <- 9*numOfAneu
+  }else{
+    num2Recontr <- 1000
+  }
+
+	simDt <- c()
+	seed = 12345
+	for (i in 1:num2Recontr)
+	{
+		x1 <- runif(1, 0, 1)
+		index <- which(prob.y < (x1 + 0.002) & prob.y > (x1 - 0.002))
+		if (length(index) < 1)
+		{
+			index <- which(prob.y < (x1 + 0.02) & prob.y > (x1 - 0.02))
+		}
+		if (length(index) < 1)
+		{
+			index <- which(prob.y < (x1 + 0.2) & prob.y > (x1 - 0.2))
+		}
+		temp <- sample( index, 1)
+		simDt[i] <- x[temp]
+	}
+
+  if (popNum == 3)
+	{
+    simDt <- c(simDt , cleanedSample$AneuLeft)
+  }
+
+	bk = floor(max(simDt))*2
+	den <- (hist(simDt, breaks=bk)$density)
+
+	for (m in length(den):16)
+	{
+		den[m] <- params$filler
+	}
+	dt.temp <- as.data.frame(den)
+	colnames(dt.temp) <- cleanedSample$sample
+	dt.return <- cbind(dt.return, dt.temp)
+	
+}
+
+oscc.temp <- dt.return[,-1]
+dim(t(oscc.temp))[1]
+label <- rep(lab, dim(t(oscc.temp))[1])
+oscc.out <- cbind(t(oscc.temp), as.data.frame(label))
+dim(oscc.out)
+
+
+#setwd(paste (root, "/myGit/mixturemodel/reconData/", sep=""))
+#getwd()
+#write.table (oscc.out, "recon_oscc_para1.txt", sep="\t", col.names = NA)
+
+
+setwd(paste (root, "/myGit/mixturemodel/reconData/para2/", sep=""))
+getwd()
+combined.recon <- rbind (oscc.out, olk.out, normal.out)
+str(combined.recon)
+rownames(combined.recon)
+colnames(combined.recon)
+write.table (combined.recon, "recon_3classes_para4.txt", sep="\t", col.names = NA)
+
