@@ -1,0 +1,21 @@
+---
+title: "Dynamic report"
+output: pdf_document
+params:
+  choice: NA
+  df: NA
+---
+
+Your have chosen the following  
+```{r  echo=FALSE}
+
+params$choice
+
+```
+
+A plot of `params$choice` is here
+
+```{r echo=FALSE}
+ggplot(params$df, aes_string(x=names(params$df)[1], y=names(params$df)[2])) +
+      geom_point()
+```

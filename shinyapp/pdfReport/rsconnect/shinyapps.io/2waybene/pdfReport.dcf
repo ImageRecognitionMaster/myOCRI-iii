@@ -1,0 +1,11 @@
+name: pdfReport
+title: pdfReport
+account: 2waybene
+server: shinyapps.io
+appId: 174219
+bundleId: 798501
+url: https://2waybene.shinyapps.io/pdfReport/
+when: 1492786454.46377
+asMultiple: FALSE
+asStatic: FALSE
+ignoredFiles: rticles-tutorial-01.pptx
