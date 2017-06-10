@@ -23,7 +23,7 @@
 ## 
 ## 
 # ui.R
-#source("helpers.R")
+source("helperFuncs/helpers.R")
 
 customHeaderPanel <- function(title,windowTitle=title){
   tagList(
@@ -36,9 +36,6 @@ customHeaderPanel <- function(title,windowTitle=title){
   )
 }
 
-# collects all of the tab UIs
-#shinyUI(
-#
 
 tagList(
   tags$head(
@@ -51,26 +48,12 @@ tagList(
     #United theme from http://bootswatch.com/
     #customHeaderPanel(title="SOCRISP: Shiny Oral Cancer Risk Prediction"),#img(src="KCardio_CMYK_4C_pos_small.jpg",height=50,width= 92,align="right")	,
     title = "SOCRISP: Shiny Oral Cancer Risk Prediction",
+    source("ui-intro-tab.R",local=TRUE)$value,
     source("ui-inputData-tab.R",local=TRUE)$value,
-    ## =========================================================================== ##
-    ## DOWNLOAD DATA TABS
-    ## =========================================================================== ##
-#    source("ui-tab-inputdata.R",local=TRUE)$value,
-    ## =========================================================================== ##
-    ## Visualization TABS
-    ## =========================================================================== ##
- #   source("ui-tab-samplegroupplots.R",local=TRUE)$value,
-#    source("ui-tab-analysisres.R",local=TRUE)$value,
-#    source("ui-tab-dotplot.R",local=TRUE)$value,
-#    source("ui-tab-heatmap.R",local=TRUE)$value,
-#    source("ui-tab-help.R",local=TRUE)$value,
-#    source("ui-tab-news.R",local=TRUE)$value,
- #   source("ui-tab-terms.R",local=TRUE)$value,
-    #end definitions of tabs, now footer
-    ## ============================================================================ ##
-    ## INFO TAB
-    ## ============================================================================ ##   
+    source("ui-pdf-demo.R",local=TRUE)$value,
+    source("ui-tab-terms.R",local=TRUE)$value,
     
+    #end definitions of tabs, now footer
     ## ==================================================================================== ##
     ## FOOTER
     ## ==================================================================================== ##              
@@ -78,7 +61,9 @@ tagList(
              p(("Department of Mathematics and Statistics, University of North Carolina at Charlotte"),align="center",width=4),
              p(("Cancer Research Program, North Carolina Central University"),align="center",width=4),
              p(("Copyright (C) 2017, code licensed under GPLv3"),align="center",width=4),
-             p(a("Liu, Y et al (2015) `Quantitative risk stratification of oral leukoplakia with exfoliative cytology` PloSOne.  doi: 10.1371/journal.pone.0126760.",href="http://journals.plos.org/plosone/article?id=10.1371/journal.pone.0126760"),align="center",width=4)
+             #    p(a("Liu, Y et al (2015) `Quantitative risk stratification of oral leukoplakia with exfoliative cytology` PloSOne.     doi: 10.1371/journal.pone.0126760.",href="http://journals.plos.org/plosone/article?id=10.1371/journal.pone.0126760"),align="center",width=4),
+             p(a("Liu, Y et al (2017) `Quantitative prediction of oral cancer risk in patients with oral leukoplakia` Oncotarget.  doi: 10.18632/oncotarget.17550.",href="http://www.impactjournals.com/oncotarget/index.php?journal=oncotarget&page=article&op=view&path%5B%5D=17550&path%5B%5D=56152"),align="center",width=4)
+             
     ),
     
     ## ==================================================================================== ##
