@@ -51,7 +51,7 @@ tagList(
     #United theme from http://bootswatch.com/
     #customHeaderPanel(title="SOCRISP: Shiny Oral Cancer Risk Prediction"),#img(src="KCardio_CMYK_4C_pos_small.jpg",height=50,width= 92,align="right")	,
     title = "SOCRISP: Shiny Oral Cancer Risk Prediction",
-    source("ui-inputData-tab.R",local=TRUE)$value,
+    source("ui-tab-inputdata.R",local=TRUE)$value,
     ## =========================================================================== ##
     ## DOWNLOAD DATA TABS
     ## =========================================================================== ##
@@ -74,12 +74,15 @@ tagList(
     ## ==================================================================================== ##
     ## FOOTER
     ## ==================================================================================== ##              
-    footer=p(hr(),p("ShinyApp created by ", strong("{Yicheng Li + Xiaoxin Chen}")," of ",align="center",width=4),
+    footer=p(hr(),
+             p("ShinyApp created by ", strong("{Yicheng Li + Xiaoxin Chen}")," of ",align="center",width=4),
              p(("Department of Mathematics and Statistics, University of North Carolina at Charlotte"),align="center",width=4),
              p(("Cancer Research Program, North Carolina Central University"),align="center",width=4),
              p(("Copyright (C) 2017, code licensed under GPLv3"),align="center",width=4),
-             p(a("Liu, Y et al (2015) `Quantitative risk stratification of oral leukoplakia with exfoliative cytology` PloSOne.  doi: 10.1371/journal.pone.0126760.",href="http://journals.plos.org/plosone/article?id=10.1371/journal.pone.0126760"),align="center",width=4)
-    ),
+             p(a("Liu, Y , Li, Yicheng et al (2017) `Quantitative prediction of oral cancer risk in patients with oral leukoplakia` Oncotarget.  doi: 10.18632/oncotarget.17550.",href="http://www.impactjournals.com/oncotarget/index.php?journal=oncotarget&page=article&op=view&path[]=17550&author-preview=dji"),align="center",width=4)),
+     #        p(("Quantitative risk stratification of oral leukoplakia with exfoliative cytology"),align="center",width=4),
+
+ #  p(a("Liu, Y et al (2015) `Quantitative risk stratification of oral leukoplakia with exfoliative cytology` PloSOne.  doi: 10.1371/journal.pone.0126760.",href="http://journals.plos.org/plosone/article?id=10.1371/journal.pone.0126760"),align="center",width=4)),
     
     ## ==================================================================================== ##
     ## end
