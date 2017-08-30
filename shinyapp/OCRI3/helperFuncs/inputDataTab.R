@@ -25,13 +25,16 @@
 
 tabPanel("Input Data", 
          fluidRow(column(4,wellPanel(
-           
-            
-           downloadLink("instructionspdf",label="Download Instructions (pdf)"),
+         #  downloadLink("instructionspdf",label="Download Instructions (pdf)"),
            radioButtons('data_file_type','Use example file or upload your own data',
                         c('Upload Data'="upload",
+                    #      'START RData file'="previousrdata",
                           'Example Data'="examplecounts"
                         ),selected = "examplecounts"),
+        #   conditionalPanel(condition="input.data_file_type=='previousrdata'",
+        #                    fileInput('rdatafile','Upload START Generated RData File'),
+        #                    conditionalPanel("output.fileUploaded",h4(strong("Check data contents then click:")))
+        #   ),
            conditionalPanel(condition="input.data_file_type=='upload'",
                             
                             tags$hr(),
@@ -46,25 +49,23 @@ tabPanel("Input Data",
                                                'text/comma-separated-values,text/plain', 
                                                '.csv'))
 
-         )
-       # ,#column
+         ),#column
         
-      #   column(8,
-      #          bsCollapse(id="input_collapse_panel",open="data_panel",multiple = FALSE,
-      #                     bsCollapsePanel(title="Data Contents: Check Before `Submit`",value="data_panel",
-      #                                     dataTableOutput('countdataDT')                       
-      #                    )
-                          #,
-        #                   bsCollapsePanel(title="Analysis Results: Ready to View Other Tabs",value="analysis_panel",
-        #                                   downloadButton('downloadResults_CSV','Save Results as CSV File'),
-        #                                   downloadButton('downloadResults_RData',
-        #                                                  'Save Results as START RData File for Future Upload',
-        #                                                  class="mybuttonclass"),
-        #                                   dataTableOutput('analysisoutput'),
-        #                                   tags$head(tags$style(".mybuttonclass{background-color:#CD0000;} .mybuttonclass{color: #fff;} .mybuttonclass{border-color: #9E0000;}"))
-        #                   )
-         #       )#bscollapse
-     #    )#column
+         column(8,
+                bsCollapse(id="input_collapse_panel",open="data_panel",multiple = FALSE,
+                           bsCollapsePanel(title="Data Contents: Check Before `Submit`",value="data_panel",
+                                           dataTableOutput('countdataDT')                       
+                           ),
+                           bsCollapsePanel(title="Analysis Results: Ready to View Other Tabs",value="analysis_panel",
+                                           downloadButton('downloadResults_CSV','Save Results as CSV File'),
+                                           downloadButton('downloadResults_RData',
+                                                          'Save Results as START RData File for Future Upload',
+                                                          class="mybuttonclass"),
+                                           dataTableOutput('analysisoutput'),
+                                           tags$head(tags$style(".mybuttonclass{background-color:#CD0000;} .mybuttonclass{color: #fff;} .mybuttonclass{border-color: #9E0000;}"))
+                           )
+                )#bscollapse
+         )#column
          )#fluidrow
          )
          )
