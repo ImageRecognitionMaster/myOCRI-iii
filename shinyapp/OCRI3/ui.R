@@ -51,7 +51,7 @@ tagList(
     #United theme from http://bootswatch.com/
     #customHeaderPanel(title="SOCRISP: Shiny Oral Cancer Risk Prediction"),#img(src="KCardio_CMYK_4C_pos_small.jpg",height=50,width= 92,align="right")	,
     title = "SOCRISP: Shiny Oral Cancer Risk Prediction",
-    source("ui-inputData-tab.R",local=TRUE)$value,
+  #  source("ui-inputData-tab.R",local=TRUE)$value,
     ## =========================================================================== ##
     ## DOWNLOAD DATA TABS
     ## =========================================================================== ##
