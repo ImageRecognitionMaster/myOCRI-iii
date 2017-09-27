@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 
 ## ==================================================================================== ##
 # SOCRISP ShinyApp is design for clinician to run Oral Cancer Risk Index on DNA-image 
@@ -92,7 +92,7 @@ tagList(
   ) #end navbarpage
 ) #end taglist
 
-=======
+
 
 ## ==================================================================================== ##
 # SOCRISP ShinyApp is design for clinician to run Oral Cancer Risk Index on DNA-image 
@@ -168,4 +168,4 @@ tagList(
   ) #end navbarpage
 ) #end taglist
 
->>>>>>> f95e1a992e4ba877619743c0fea8f23973efe2d8
+
